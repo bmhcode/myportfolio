@@ -65,12 +65,6 @@ Jinja2==3.1.4
 jiter==0.12.0
 jsonpatch==1.33
 jsonpointer==3.0.0
-Kivy==2.3.1
-kivy-deps.angle==0.4.0
-kivy-deps.glew==0.3.1
-Kivy-Garden==0.1.5
-kivy_deps.sdl2==0.8.0
-kivymd @ https://github.com/kivymd/KivyMD/archive/master.zip#sha256=033613238896799a6f7bb3fc451d2d8191515b3b8a0ea1e04682599b19dcf83e
 langchain==1.0.8
 langchain-core==1.1.0
 langgraph==1.0.3
