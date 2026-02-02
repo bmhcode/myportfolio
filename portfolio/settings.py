@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,17 +77,31 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# إعداد قاعدة البيانات
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",  # يستخدم SQLite إذا لم توجد DATABASE_URL
+        conn_max_age=600,  # مفيد للـ Production (PostgreSQL)
+    )
 }
 
-DATABASES = {
-    'default': dj_database_url.config
-    (default=os.getenv('DATABASE_URL'), conn_max_age=600, conn_health_checks=True)
-}
+# ملاحظات:
+# 1. لو كنت على Windows أو تعمل محليًا بدون DATABASE_URL → سيستخدم SQLite تلقائيًا
+# 2. لو في Environment Variable باسم DATABASE_URL → سيتم استخدامه (مثلاً PostgreSQL على Heroku / Render)
+# 3. بعد هذا التعديل، يجب تنفيذ:
+#    python manage.py makemigrations
+#    python manage.py migrate
+#    python manage.py runserver
+
+
 
 
 # Password validation
