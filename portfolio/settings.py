@@ -9,10 +9,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import dj_database_url
 import os
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,16 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-vi$p6z*3@e%s+uu!2_787e+kw&_-xohlw=3@dno#-ikd1m73z0')
+# SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-vi$p6z*3@e%s+uu!2_787e+kw&_-xohlw=3@dno#-ikd1m73z0')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Enable DEBUG locally, disable on Render
-DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ['bmhportfolio.onrender.com'] # In production, you might want to limit this to ['.onrender.com'] or your custom domain, but '*' facilitates testing.
-# if os.environ.get('RENDER'):
-#     ALLOWED_HOSTS += ['.onrender.com']
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(' ')
 
 # Application definition
 
@@ -81,31 +80,20 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # إعداد قاعدة البيانات
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",  # يستخدم SQLite إذا لم توجد DATABASE_URL
-        conn_max_age=600,  # مفيد للـ Production (PostgreSQL)
-    )
-}
-
-# ملاحظات:
-# 1. لو كنت على Windows أو تعمل محليًا بدون DATABASE_URL → سيستخدم SQLite تلقائيًا
-# 2. لو في Environment Variable باسم DATABASE_URL → سيتم استخدامه (مثلاً PostgreSQL على Heroku / Render)
-# 3. بعد هذا التعديل، يجب تنفيذ:
-#    python manage.py makemigrations
-#    python manage.py migrate
-#    python manage.py runserver
-
-
+# DATABASES = {
+#     'default': dj_database_url.config(postgresql://bmhportfolio_db_user:cch4Xm2LGD1t1SHNXTEhnp8xHsVGUjYE@dpg-d5vup97pm1nc73ctu1fg-a.frankfurt-postgres.render.com/bmhportfolio_db)
+# }
+database_url = os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation
