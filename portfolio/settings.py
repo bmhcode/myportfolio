@@ -29,9 +29,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-vi$p6z*3@e%s+uu!2_787
 # Enable DEBUG locally, disable on Render
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ['*'] # In production, you might want to limit this to ['.onrender.com'] or your custom domain, but '*' facilitates testing.
-if os.environ.get('RENDER'):
-    ALLOWED_HOSTS += ['.onrender.com']
+ALLOWED_HOSTS = ['bmhportfolio.onrender.com'] # In production, you might want to limit this to ['.onrender.com'] or your custom domain, but '*' facilitates testing.
+# if os.environ.get('RENDER'):
+#     ALLOWED_HOSTS += ['.onrender.com']
 
 # Application definition
 
