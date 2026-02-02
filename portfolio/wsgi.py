@@ -13,8 +13,7 @@
 import os
 import sys
 
-
-path2 = '/home/bmhcodes/portfolio/portfolio'
+path = '/home/bmhcodes/portfolio/portfolio'
 if path not in sys.path:
     sys.path.append(path)
 
